@@ -11,12 +11,16 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
+        
+      - name: Setup MSBuild for .NET Framework
+        uses: microsoft/setup-msbuild@v1.3.1
+        
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.0.5
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '8.0.x'  # Adjust if using a different .NET version
-
+      - name: Restore Dependencies
+        run: nuget restore QB_Terms_Lib.sln
+        
       - name: Run Code Formatting Check
         run: dotnet format --verify-no-changes
 
